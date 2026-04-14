@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Tue Sep 23 08:53:58 2025
+
+@author: 23598
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Wed Mar 26 21:18:37 2025
 
 @author: 23598
@@ -23,7 +30,7 @@ from real_unfolding_transformer_DAMP_parral import Unfolded_TransformerEncoder2D
 #from real_unfolding_transformer_DAMP_parral_nopos import Unfolded_TransformerEncoder2D_DAMP
 
 
-state_dict = torch.load("data/net/RUST_DAMP_MH_TRIAL20_1ddata_lr_scheduler_bs64_after_220epochs_K2_T20_fixed.pth", map_location='cpu')
+state_dict = torch.load("data/net/RUST_DAMP_MH_TRIAL10_1ddata_lr_scheduler_bs64_after_220epochs_K2_T5_fixed.pth", map_location='cpu')
 #state_dict = torch.load("data/net/RUST_DAMP_MH_TRIAL10_1ddata_lr_scheduler_bs64_after_220epochs_K2_T20_fixed_midSNR.pth", map_location='cpu') #RUST_DAMP_MH_TRIAL10_1ddata_lr_scheduler_bs64_ultimate_K2_small
 
 
@@ -35,14 +42,14 @@ An_min = -60
 v = np.arange(An_min, An_max+res,res)
 maxit=20
 #model_CNN = FISTA_NET(maxit=maxit) 
-model_CNN = Unfolded_TransformerEncoder2D_DAMP(embed_dim=121, signal_dim=512, num_heads=11, layers=maxit, time_dim=20, denoiser_ch=64)
+model_CNN = Unfolded_TransformerEncoder2D_DAMP(embed_dim=121, signal_dim=512, num_heads=11, layers=maxit, time_dim=5, denoiser_ch=64)
 #model_CNN = MLP()
 model_CNN.load_state_dict(state_dict)
 #summary(model_CNN, (3,16,16))
 #model_CNN = U2NET(3,1)#UNET()#
 model_CNN.load_state_dict(state_dict)
 
-filename1 = 'data/test/DOA_Dataset_GridAligned_Smooth_test_uniform_vsSNR_100_5deg_P2_K3new.mat' # DOA_Dataset_GridAligned_Smooth_test_uniform_5deg_P2
+filename1 = 'data/test/DOA_Dataset_GridAligned_Smooth_test_uniform_vsSNR_100_5deg_P2_K3_5pak.mat' # DOA_Dataset_GridAligned_Smooth_test_uniform_5deg_P2
 filename2 = 'D:/files/reafiles/DOA/TSP_JOURNAL_DoA_Estimation/DoA_DATA_JOURNALS/TEST_DATA_16ULA_K2_min10dBSNR_T200_3D_slideang_offgrid_sep4coma7_deg.h5'
 f1 = sio.loadmat(filename1)
 GT_angles = np.squeeze(np.array(f1['all_angles']))
@@ -78,7 +85,7 @@ with torch.no_grad():
     
 
 
-filename = 'data/test_results/RMSE_CNN_K3_fixed_offgrid_ang_all_SNR_T1_DTransformer_5degnew1.h5'
+filename = 'data/test_results/RMSE_CNN_K3_fixed_offgrid_ang_all_SNR_T1_DTransformer_5deg_5pak.h5'
 hf = h5py.File(filename, 'w')
 hf.create_dataset('CNN_RMSE', data=RMSE_sam)
 #hf.create_dataset('CNN_RES', data=resolution_values)
